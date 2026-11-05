@@ -1,0 +1,1127 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>منصة طموح | لوحة المذاكرة اليومية</title>
+<style>
+:root{
+ --bg:#eef2f8;--card:#fff;--text:#17213a;--muted:#7b8498;--line:#e4e9f1;
+ --navy:#171747;--navy2:#27206b;--purple:#5147b8;--green:#07956d;--green2:#20d39d;
+ --blue:#edf2ff;--yellow:#fff4d8;--shadow:0 7px 22px rgba(25,35,65,.08)
+}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",Tahoma,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.shell{min-height:100vh}.sidebar{position:fixed;right:0;top:0;bottom:0;width:226px;background:var(--card);border-left:1px solid var(--line);padding:18px 13px;z-index:20}
+.brand{display:flex;align-items:center;gap:9px;padding:3px 9px 25px}.brand .logo{width:39px;height:39px;border-radius:12px;background:linear-gradient(135deg,#5147b8,#847af0);display:grid;place-items:center;color:#fff;font-size:20px}.brand b{font-size:18px}.brand small{display:block;color:var(--muted);font-size:9px;margin-top:2px}
+.nav{display:grid;gap:5px}.nav button{width:100%;border:0;background:transparent;color:var(--muted);padding:11px 12px;border-radius:9px;text-align:right;font-size:11px;font-weight:650}.nav button.active,.nav button:hover{background:#eeeefe;color:#2d277c}
+.side-note{position:absolute;bottom:18px;left:13px;right:13px;border:1px solid var(--line);background:#fafbff;border-radius:10px;padding:10px;font-size:10px;color:var(--muted)}.side-note b{color:var(--green);display:block;margin-bottom:4px}
+.main{margin-right:226px;padding:14px 29px 35px;max-width:1430px}.topbar{height:48px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.topbar h1{font-size:17px;margin:0}.topbar p{font-size:10px;color:var(--muted);margin:4px 0 0}.toplinks{display:flex;align-items:center;gap:13px;color:var(--muted);font-size:10px}.toplinks span{cursor:pointer}
+.topnav-btn{border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 10px;border-radius:8px;font-size:10px;font-weight:750;transition:.2s}.topnav-btn:hover{background:#eeeefe;color:#2d277c;transform:translateY(-1px)}.theme-btn{width:auto;min-width:76px;padding:0 8px;display:flex;align-items:center;justify-content:center;gap:5px;font-size:10px}.theme-btn span:first-child{font-size:15px}
+body.dark{--bg:#0f1220;--card:#181c2d;--text:#eef2ff;--muted:#9aa3ba;--line:#2b3248;--blue:#202844;--yellow:#3b3118;--shadow:0 7px 22px rgba(0,0,0,.28)}body.dark .topnav-btn:hover,body.dark .nav button.active,body.dark .nav button:hover{background:#29234f;color:#fff}body.dark .mini-stat,body.dark .alert-setting,body.dark .quick-note,body.dark .metric-box,body.dark .ref-session-info{background:#20263a;border-color:#30384f}body.dark .side-note{background:#151a29}
+.actions{display:flex;gap:7px}.icon{width:36px;height:36px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:9px;position:relative}.bell-dot{position:absolute;width:7px;height:7px;border-radius:50%;background:#e64b4b;top:6px;left:7px}
+.notice{background:#eaf8f2;color:#087b5d;border-radius:8px;padding:7px 12px;font-size:10px;margin-bottom:10px;display:inline-block}
+.hero{background:linear-gradient(105deg,#11133d,#17154b 48%,#29206d);color:#fff;border-radius:10px;padding:18px 20px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;min-height:104px}.hero h2{font-size:18px;margin:0 0 7px}.hero p{font-size:10px;color:#d9d8f4;margin:0;line-height:1.8}.hero small{color:#b7b4e5}.spark{width:37px;height:37px;border-radius:10px;background:#ffffff12;display:grid;place-items:center;font-size:20px;float:right;margin-left:11px}.hero-btn{background:#4c4b74;color:#fff;border:0;border-radius:7px;padding:8px 12px;font-size:10px;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px;min-height:88px;box-shadow:var(--shadow)}.stat .cap{font-size:10px;color:var(--muted)}.stat .big{font-size:25px;font-weight:850;margin-top:5px}.stat .small{font-size:9px;color:var(--green);margin-top:3px}.bar{height:6px;background:#e8edf5;border-radius:5px;margin-top:7px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green);border-radius:5px}
+.grid{display:grid;grid-template-columns:1.35fr .85fr;gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:14px}.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}.card-head h3{font-size:13px;margin:0}.card-head small{font-size:9px;color:var(--muted)}
+.task{border:1px solid var(--line);border-radius:9px;padding:11px;margin-bottom:8px;display:grid;grid-template-columns:28px 1fr auto;gap:9px;align-items:center;border-right:4px solid var(--green)}.task.pending{border-right-color:#8d86dc}.task.done{opacity:.7}.task.done .subject{text-decoration:line-through}.check{width:23px;height:23px;border-radius:7px;border:1px solid #ccd3df;background:var(--card);color:#fff}.done .check{background:var(--green);border-color:var(--green)}.done .check:after{content:"✓"}.subject{font-size:12px;font-weight:800}.meta{font-size:9px;color:var(--muted);margin-top:4px}.pill{background:#edf7f4;color:#078260;border-radius:7px;padding:5px 8px;font-size:9px;font-weight:700}
+.focus{text-align:center}.circle{width:156px;height:156px;margin:5px auto 10px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) var(--deg),#e8edf6 0);position:relative}.circle:after{content:"";position:absolute;width:126px;height:126px;border-radius:50%;background:var(--card)}.clock{font-size:25px;font-weight:900;z-index:2;direction:ltr}.focus-state{font-size:9px;color:var(--muted);margin-bottom:8px}.focus-actions{display:flex;gap:7px}.primary,.secondary{border:0;border-radius:7px;padding:9px 11px;font-size:10px;font-weight:800}.primary{background:var(--navy);color:#fff}.green{background:var(--green);color:#fff}.secondary{background:#e9edff;color:#3e3698}
+.progress-row{background:#f5f7fb;border:1px solid var(--line);border-radius:8px;padding:8px;margin-top:9px;font-size:9px;color:var(--muted)}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.quote{background:linear-gradient(135deg,#fff8e8,#fffdf8)}.quote b{font-size:12px}.quote p{font-size:10px;color:var(--muted);line-height:1.9;margin:7px 0 0}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:9px}.form input,.form select{width:100%;padding:10px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--text);font-size:10px}.full{grid-column:1/-1}
+.section{display:none}.section.active{display:block}
+.notification-panel{position:fixed;top:60px;left:24px;width:320px;background:var(--card);border:1px solid var(--line);box-shadow:0 12px 40px #17213a22;border-radius:11px;padding:12px;z-index:50;display:none}.notification-panel h3{font-size:12px;margin:0 0 8px}.nitem{padding:9px;border-bottom:1px solid var(--line);font-size:10px}.nitem:last-child{border:0}.nitem b{display:block}.nitem span{color:var(--muted)}
+.toast{position:fixed;bottom:22px;left:22px;background:#182036;color:#fff;border-radius:9px;padding:11px 15px;font-size:11px;display:none;z-index:60}
+@media(max-width:950px){.sidebar{width:72px}.brand div+div,.brand small,.nav span,.side-note{display:none}.main{margin-right:72px;padding:14px}.nav button{text-align:center}.stats{grid-template-columns:1fr 1fr}.grid,.bottom{grid-template-columns:1fr}.toplinks{display:none}}
+@media(max-width:580px){.stats{grid-template-columns:1fr 1fr}.hero{display:block}.hero-btn{margin-top:10px}.calendar{gap:2px}.day{min-height:53px}.event{display:none}.form{grid-template-columns:1fr}}
+
+/* Premium icon system + subject library */
+.ui-icon{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 18px;color:currentColor}
+.ui-icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav button,.topnav-btn,.icon,.primary,.secondary{display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.nav button .ui-icon{width:17px;height:17px;color:#5b56c8}.nav button.active .ui-icon{color:currentColor}
+.brand .logo{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#665cff,#08a77b);color:#fff;box-shadow:0 8px 20px rgba(91,82,210,.22)}
+.brand .logo svg{width:23px;height:23px}
+.subject-library{margin-top:16px}.subject-library-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.library-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:var(--shadow);transition:.18s;position:relative;overflow:hidden}
+.library-card:hover{transform:translateY(-2px);border-color:#aaa4ec}.library-head{display:flex;align-items:center;gap:10px}.library-icon{width:38px;height:38px;border-radius:11px;background:#eef0ff;color:#554ee0;display:grid;place-items:center}.library-icon svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.library-name{font-weight:850;font-size:12px}.library-meta{font-size:9px;color:var(--muted);margin-top:7px}.library-bar{height:6px;background:#e9edf5;border-radius:99px;overflow:hidden;margin:10px 0 7px}.library-bar i{display:block;height:100%;background:linear-gradient(90deg,#6558ef,#0a9b73);border-radius:99px}.library-foot{display:flex;justify-content:space-between;align-items:center;font-size:9px}.library-foot b{color:var(--purple)}
+body.dark .library-icon{background:#242544;color:#aaa4ff}.add-material-hint{font-size:10px;color:var(--muted);margin-top:5px}
+@media(max-width:950px){.subject-library-grid{grid-template-columns:1fr 1fr}}@media(max-width:620px){.subject-library-grid{grid-template-columns:1fr}}
+</style>
+
+<style>
+/* New monthly study calendar — replaces the previous monthly calendar completely */
+.month-overview{margin-top:14px}
+.monthly-plan-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow);direction:ltr}
+.monthly-plan-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
+.monthly-plan-head h2{font-size:22px;margin:0;color:var(--text);font-weight:850}
+.monthly-plan-head p{font-size:13px;color:var(--muted);margin:7px 0 0}
+.monthly-plan-nav{display:flex;align-items:center;gap:7px}
+.monthly-plan-nav button{width:34px;height:34px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:9px;font-size:18px;cursor:pointer}
+.monthly-plan-nav button:hover{background:#eeeefe}
+.monthly-plan-datebar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;background:#f7f9fd;border:1px solid var(--line);border-radius:11px}
+body.dark .monthly-plan-datebar{background:#171a36}
+.monthly-plan-selectors{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.monthly-plan-selectors select,.monthly-plan-selectors button{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:8px;padding:7px 10px;font-size:10px}
+.monthly-plan-selectors button{background:var(--navy);color:#fff;border:0;font-weight:800;cursor:pointer}
+.monthly-selected-date{font-size:10px;color:var(--muted);font-weight:750}
+.monthly-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.monthly-weekday{text-align:center;color:var(--muted);font-size:11px;padding:4px 2px;font-weight:700}
+.monthly-cell{min-height:88px;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--card);cursor:pointer;transition:.18s;position:relative}
+.monthly-cell:hover{border-color:#8f88ee;transform:translateY(-1px)}
+.monthly-cell.empty{background:transparent;border-color:transparent;cursor:default}
+.monthly-cell.today{border:2px solid var(--purple);background:#f5f3ff}
+body.dark .monthly-cell.today{background:#29254a}
+.monthly-cell.complete{background:#e8f8f2;border-color:#69cba9}
+.monthly-cell.partial{background:#fff5df;border-color:#e6c66b}
+.monthly-cell.planned{background:#edf0ff;border-color:#b5b0e9}
+body.dark .monthly-cell.complete{background:#18372f}body.dark .monthly-cell.partial{background:#3b321c}body.dark .monthly-cell.planned{background:#29284b}
+.monthly-day-number{font-size:15px;font-weight:850;color:var(--text)}
+.monthly-cell.complete .monthly-day-number{color:#087b5d}.monthly-cell.partial .monthly-day-number{color:#93690c}.monthly-cell.planned .monthly-day-number{color:#5147b8}
+.monthly-tasks-count{font-size:10px;color:var(--muted);margin-top:12px}
+.monthly-status-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;background:#8b84e8}
+.monthly-cell.complete .monthly-status-dot{background:#0aa47b}.monthly-cell.partial .monthly-status-dot{background:#d09b20}
+.monthly-complete-mark{font-size:11px;color:#087b5d;margin-left:4px}
+.monthly-legend{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.monthly-legend-item{font-size:9px;color:var(--muted);display:flex;align-items:center;gap:5px}.monthly-legend-dot{width:9px;height:9px;border-radius:3px}.monthly-legend-dot.complete{background:#69cba9}.monthly-legend-dot.partial{background:#e6c66b}.monthly-legend-dot.planned{background:#b5b0e9}.monthly-legend-dot.today{border:2px solid var(--purple);background:transparent}
+.monthly-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.monthly-summary-box{border:1px solid var(--line);background:#f7f9fd;border-radius:10px;padding:10px}.monthly-summary-box strong{display:block;font-size:18px}.monthly-summary-box span{font-size:9px;color:var(--muted)}
+body.dark .monthly-summary-box{background:#171a36}
+@media(max-width:900px){.monthly-grid{gap:5px}.monthly-cell{min-height:70px;padding:8px}.monthly-plan-head h2{font-size:18px}}
+@media(max-width:560px){.monthly-plan-card{padding:14px}.monthly-grid{gap:3px}.monthly-cell{min-height:58px;padding:6px}.monthly-day-number{font-size:12px}.monthly-tasks-count{font-size:8px;margin-top:8px}.monthly-summary{grid-template-columns:1fr 1fr 1fr}.monthly-plan-head{display:block}.monthly-plan-nav{margin-top:10px}}
+</style>
+
+
+<style>
+.alert-settings{margin-top:12px}
+.alert-settings-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:10px}
+.alert-settings-head h3{font-size:13px;margin:0}.alert-settings-head p{font-size:9px;color:var(--muted);margin:4px 0 0}
+.alert-settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.alert-setting{background:#eef3ff;border:1px solid #e3e8f4;border-radius:10px;padding:12px;min-height:126px}
+.alert-setting-top{display:flex;align-items:center;justify-content:space-between}
+.alert-setting-icon{width:30px;height:30px;border-radius:8px;background:#dfe8ff;display:grid;place-items:center;font-size:15px}
+.alert-setting h4{font-size:10px;margin:12px 0 5px}
+.alert-setting p{font-size:8px;color:var(--muted);line-height:1.8;margin:0}
+.alert-toggle{width:34px;height:20px;border:0;border-radius:20px;background:#aeb8c9;position:relative}
+.alert-toggle:after{content:"";position:absolute;width:14px;height:14px;right:17px;top:3px;border-radius:50%;background:#fff;transition:.2s}
+.alert-toggle.on{background:var(--green)}.alert-toggle.on:after{right:3px}
+.alert-settings-foot{margin-top:9px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.alert-settings-foot span{font-size:8px;color:var(--muted)}
+.alert-settings-foot button{border:0;border-radius:7px;background:var(--green);color:#fff;padding:7px 10px;font-size:9px;font-weight:800}
+@media(max-width:700px){.alert-settings-grid{grid-template-columns:1fr}}
+</style>
+
+
+<style>
+.focus-replacement{margin-top:14px;display:grid;grid-template-columns:1fr;gap:12px}
+.focus-card{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:14px;box-shadow:var(--shadow)}
+.focus-timer-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.focus-timer-title{font-size:12px;font-weight:900}.focus-timer-sub{font-size:8px;color:var(--muted);margin-top:3px}
+.focus-timer-box{display:grid;grid-template-columns:190px 1fr;gap:14px;align-items:center}
+.focus-clock{width:142px;height:142px;border-radius:50%;display:grid;place-items:center;margin:10px auto;background:conic-gradient(var(--green) var(--focus-deg,270deg),#e5ebf4 0);position:relative}
+.focus-clock:after{content:"";position:absolute;width:112px;height:112px;background:var(--card);border-radius:50%}
+.focus-clock-inner{z-index:2;text-align:center}.focus-clock-time{font-size:25px;font-weight:900;direction:ltr}.focus-clock-label{font-size:8px;color:var(--muted);margin-top:3px}
+.focus-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}.focus-buttons button{border:0;border-radius:7px;padding:8px 5px;font-size:9px;font-weight:800}.fb-green{background:var(--green);color:#fff}.fb-blue{background:#e7edff;color:#40389b}.fb-dark{background:var(--navy);color:#fff}
+.focus-side{display:flex;flex-direction:column;gap:8px}.focus-stat{background:#f1f5ff;border:1px solid #e2e7f2;border-radius:8px;padding:9px}.focus-stat b{display:block;font-size:10px}.focus-stat span{font-size:8px;color:var(--muted);line-height:1.7}
+.checklist{margin-top:12px}.checklist h3,.notes-board h3,.achievements h3{font-size:11px;margin:0 0 8px}.check-row{display:flex;align-items:center;gap:8px;padding:8px;border-bottom:1px solid var(--line);font-size:9px}.check-row:last-child{border-bottom:0}.check-row input{accent-color:#087d5c;width:15px;height:15px}.check-row.done{text-decoration:line-through;color:var(--muted)}
+.notes-board{margin-top:12px}.note-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.study-note{background:#eaf1ff;border-radius:9px;padding:11px;min-height:88px}.study-note b{font-size:9px}.study-note p{font-size:8px;line-height:1.8;color:var(--muted);margin:5px 0 0}
+.achievements{margin-top:12px}.achievement-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.achievement{background:#eef7f3;border-radius:9px;padding:10px;text-align:center}.achievement:nth-child(2){background:#fff3df}.achievement:nth-child(3){background:#eeeaff}.achievement:nth-child(4){background:#eaf3ff}.achievement .ico{font-size:18px}.achievement b{display:block;font-size:8px;margin-top:4px}.achievement span{font-size:7px;color:var(--muted)}
+@media(max-width:700px){.focus-timer-box{grid-template-columns:1fr}.achievement-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+
+<style>
+/* Target management layout from the supplied reference */
+.manage-card.manage-table{margin-top:12px}
+.plan-action{border:0;border-radius:7px;padding:6px 9px;font-size:8px;font-weight:800;cursor:pointer}
+.plan-action.start{background:var(--green);color:#fff}.plan-action.later{background:var(--navy);color:#fff}.plan-action.done{background:#e8f7f1;color:#087d5c}
+.secondary{cursor:pointer}
+.challenge-btn{background:var(--green)!important;color:#fff!important}
+@media(max-width:700px){.manage-table-head{align-items:flex-start;gap:7px;flex-direction:column}.manage-table-head>div:last-child{width:100%;display:flex}.manage-table-head button{flex:1}}
+</style>
+
+<style>
+/* V6: compact management dashboard matching the supplied reference */
+.manage-section{margin-top:14px}
+.manage-top{grid-template-columns:.82fr 1.18fr;align-items:stretch}
+.manage-top .manage-card{min-height:190px}
+.manage-card{border-radius:11px}
+.big-progress{justify-content:center}
+.progress-ring{width:132px;height:132px;background:conic-gradient(var(--green) 0%,#dfe8f5 0)}
+.progress-ring:after{width:104px;height:104px}
+.progress-ring b{font-size:24px}
+.progress-copy{display:none}
+.mini-stats{grid-template-columns:repeat(3,1fr)}
+.mini-stat{padding:8px 5px}
+.alert-settings{margin-top:12px}
+.alert-settings-head{margin-bottom:10px}
+.alert-setting{min-height:118px}
+.alert-setting h4{font-size:10px}
+.manage-table{margin-top:12px}
+.manage-table-head{padding-bottom:2px}
+.study-table{min-width:820px}
+.study-table th{font-weight:800}
+.study-table td{vertical-align:middle}
+.plan-action{border:0;border-radius:7px;padding:6px 9px;font-size:8px;font-weight:800;margin:1px;white-space:nowrap}
+.plan-action.start{background:var(--green);color:#fff}
+.plan-action.later{background:var(--navy);color:#fff}
+.plan-action.done{background:#e7eaf0;color:#60677a}
+.plan-action.repeat{background:#edf2ff;color:#433ba2}
+.plan-action:active{transform:translateY(1px)}
+.row-active td{background:#eefaf5!important}
+.row-active td:first-child{box-shadow:inset -4px 0 var(--green)}
+.challenge-focus{outline:2px solid var(--green);outline-offset:2px}
+@media(max-width:900px){.manage-top{grid-template-columns:1fr}.progress-copy{display:none}}
+</style>
+
+
+<style>
+.stats-panel{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+.stats-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.stats-head h3{margin:0;font-size:14px}.stats-head span{font-size:9px;color:var(--muted)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.stat-box{border:1px solid var(--line);background:#f7f9fd;border-radius:10px;padding:11px;min-height:72px}
+body.dark .stat-box{background:#171a36}
+.stat-box .stat-label{font-size:9px;color:var(--muted);display:block;margin-bottom:5px}
+.stat-box strong{font-size:20px;display:block;line-height:1.1}
+.stat-box small{font-size:8px;color:var(--muted)}
+.stat-progress{margin-top:11px;background:#eef2f8;border-radius:8px;height:9px;overflow:hidden}
+body.dark .stat-progress{background:#272b4d}
+.stat-progress>div{height:100%;width:0;background:var(--green);transition:width .3s}
+.stats-foot{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:9px;margin-top:9px}
+.stat-mini{background:#f7f9fd;border:1px solid var(--line);border-radius:9px;padding:9px}
+body.dark .stat-mini{background:#171a36}
+.stat-mini b{font-size:9px;display:block;margin-bottom:3px}.stat-mini span{font-size:8px;color:var(--muted)}
+@media(max-width:800px){.stats-grid{grid-template-columns:1fr 1fr}.stats-foot{grid-template-columns:1fr}}
+</style>
+
+
+<style>
+/* Productivity dashboard inspired by the supplied reference */
+.productivity-wrap{margin:14px 0}
+.productivity-hero{background:linear-gradient(110deg,#6357f2,#7d70ff);border-radius:20px;padding:22px 28px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:145px;box-shadow:0 10px 25px rgba(85,72,210,.16)}
+.productivity-hero h2{font-size:24px;margin:0 0 7px}.productivity-hero p{font-size:15px;margin:0 0 12px;opacity:.95}.productivity-hero q{font-size:12px;opacity:.9}
+.day-progress{width:120px;height:120px;border-radius:50%;background:conic-gradient(#fff 0deg,#fff 0deg,rgba(255,255,255,.25) 0);display:grid;place-items:center;position:relative;flex:none}
+.day-progress:after{content:"";position:absolute;width:92px;height:92px;background:#7164f8;border-radius:50%}
+.day-progress b{z-index:2;font-size:28px}.day-progress span{position:absolute;top:126px;font-size:11px;white-space:nowrap}
+.productivity-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.p-kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;min-height:82px;box-shadow:var(--shadow)}
+.p-kpi span{display:block;color:#6c7190;font-size:11px;margin-bottom:9px}.p-kpi strong{font-size:26px}
+.productivity-main{display:grid;grid-template-columns:1.65fr .95fr;gap:14px;margin-top:14px}
+.p-panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+.p-panel h3{font-size:17px;margin:0 0 13px}.schedule-list{display:flex;flex-direction:column;gap:9px}
+.schedule-item{display:flex;align-items:center;gap:12px;border:1px solid #dfe4f0;border-radius:14px;padding:12px 14px;background:var(--card);transition:.2s}
+.schedule-item.done{background:#f2fbf7}.schedule-item input{width:28px;height:28px;accent-color:#14ad7b;cursor:pointer}
+.schedule-info{flex:1}.schedule-info b{display:block;font-size:14px}.schedule-info span{display:block;font-size:10px;color:#6c7190;margin-top:4px}.schedule-time{background:#eeeaff;color:#6357f2;font-weight:800;padding:8px 10px;border-radius:9px;font-size:11px}
+.schedule-item.done .schedule-info b{text-decoration:line-through;color:#7d8192}
+.subject-progress{display:flex;align-items:center;gap:7px;margin-top:6px}.subject-progress-bar{height:6px;background:#e8edf5;border-radius:8px;overflow:hidden;flex:1;min-width:70px;max-width:150px}.subject-progress-bar i{display:block;height:100%;background:linear-gradient(90deg,#14ad7b,#6759f5);border-radius:8px;transition:width .3s}.subject-progress-pct{font-size:9px;font-weight:900;color:#5147b8;min-width:34px}.schedule-item .schedule-progress{font-size:9px;color:#5147b8;font-weight:800;background:#eeeaff;padding:5px 7px;border-radius:8px;white-space:nowrap}body.dark .subject-progress-bar{background:#292d4e}body.dark .schedule-item .schedule-progress{background:#29254a;color:#aaa4ff}
+.smart-break{text-align:center}.smart-break p{color:#68708d;font-size:13px;line-height:1.7;text-align:right}.break-clock{font-size:50px;letter-spacing:1px;margin:28px 0 14px;font-weight:500}
+.break-actions{display:flex;gap:10px}.break-actions button{flex:1;border:0;border-radius:12px;padding:12px;font-size:13px;font-weight:800;cursor:pointer}.break-start{background:#6759f5;color:#fff}.break-reset{background:#eeeaff;color:#6357f2}
+.break-note{font-size:10px;color:#737993;margin-top:10px}
+@media(max-width:800px){.productivity-hero{padding:18px;min-height:125px}.productivity-hero h2{font-size:19px}.productivity-hero p{font-size:12px}.day-progress{width:90px;height:90px}.day-progress:after{width:68px;height:68px}.day-progress span{top:95px}.productivity-main{grid-template-columns:1fr}.productivity-kpis{grid-template-columns:1fr}.break-clock{font-size:42px}}
+</style>
+
+
+<style>
+.achievement-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px}
+.achievement-head h3{margin:0;font-size:14px}.achievement-head p{margin:4px 0 0;font-size:9px;color:var(--muted)}
+.achievement-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.achievement-stat{background:#f7f9fd;border:1px solid var(--line);border-radius:9px;padding:10px}
+body.dark .achievement-stat{background:#171a36}
+.achievement-stat span{font-size:8px;color:var(--muted);display:block}.achievement-stat b{font-size:18px;display:block;margin-top:3px}
+.achievement-progress{height:9px;background:#e8edf5;border-radius:9px;overflow:hidden;margin:11px 0}
+body.dark .achievement-progress{background:#292d4e}
+.achievement-progress i{display:block;height:100%;width:0;background:var(--green);transition:.3s}
+.achievement-subjects{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.achievement-subject{border:1px solid var(--line);border-radius:9px;padding:10px;background:#fbfcff}
+body.dark .achievement-subject{background:#151832}
+.achievement-subject-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.achievement-subject b{font-size:10px}.achievement-subject small{font-size:8px;color:var(--muted)}
+.achievement-subject .bar{height:7px;background:#e9edf4;border-radius:8px;overflow:hidden;margin:7px 0}.achievement-subject .bar i{display:block;height:100%;background:var(--green)}
+.achievement-subject .foot{display:flex;justify-content:space-between;font-size:8px;color:var(--muted)}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.badge{padding:7px 9px;border-radius:8px;background:#eef3ff;border:1px solid #dfe6f5;font-size:8px}
+.badge.locked{opacity:.48;filter:grayscale(.5)}
+.badge strong{display:block;font-size:9px;margin-bottom:2px}
+@media(max-width:900px){.achievement-summary{grid-template-columns:1fr 1fr}.achievement-subjects{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.achievement-subjects{grid-template-columns:1fr}}
+</style>
+
+
+<style>
+#todayProgressModal{position:fixed;inset:0;background:rgba(10,16,40,.45);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
+#todayProgressModal.show{display:flex}
+.today-progress-card{width:min(430px,96vw);background:var(--card);color:var(--text);border-radius:20px;padding:24px;box-shadow:0 20px 60px rgba(10,20,60,.25);direction:rtl}
+.today-progress-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.today-progress-top h3{margin:0;font-size:20px}
+.today-progress-close{border:0;background:#eef2ff;color:var(--navy);width:34px;height:34px;border-radius:10px;font-size:20px}
+.today-progress-ring{width:150px;height:150px;border-radius:50%;margin:20px auto 12px;display:grid;place-items:center;background:conic-gradient(var(--green) 0deg,#e7edf6 0)}
+.today-progress-ring>div{width:116px;height:116px;border-radius:50%;background:var(--card);display:grid;place-items:center;text-align:center}
+.today-progress-ring strong{font-size:30px}.today-progress-ring span{display:block;font-size:10px;color:var(--muted)}
+.today-progress-subject{background:#f5f7fb;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px}
+body.dark .today-progress-subject{background:#171a36}
+.today-progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.today-progress-stat{background:#f5f7fb;border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
+body.dark .today-progress-stat{background:#171a36}
+.today-progress-stat b{display:block;font-size:18px}.today-progress-stat small{font-size:9px;color:var(--muted)}
+.today-progress-hint{font-size:11px;color:var(--muted);line-height:1.7;margin-top:12px}
+.schedule-info,.subject{cursor:pointer}
+.schedule-info:hover .subject,.task .subject:hover{color:var(--purple);text-decoration:underline}
+</style>
+
+<style>
+.library-delete{margin-inline-start:8px;border:0;background:#fff0f0;color:#c53b4d;border-radius:7px;padding:5px 8px;font-size:8px;cursor:pointer;position:relative;z-index:20;pointer-events:auto;touch-action:manipulation}.library-delete:hover{background:#ffdfe3}.library-delete:active{transform:scale(.97)}.plan-action.delete{background:#fff0f0;color:#c53b4d;border:1px solid #ffd7dc;margin-inline-start:4px}.break-control-row{display:flex;align-items:end;gap:8px;margin-top:10px}.break-control-row label{font-size:9px;color:var(--muted);display:flex;flex-direction:column;gap:4px}.break-control-row input{width:70px;border:1px solid var(--line);border-radius:7px;padding:7px;background:var(--card);color:var(--text)}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+ <div class="brand"><div class="logo"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 5.5v15A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8 7h8M8 10h7"/></svg></span></div><div><b>منصة طموح</b><small>لوحة المذاكرة الذكية</small></div></div>
+ <nav class="nav">
+  <button class="active" onclick="show('home',this)"><span class="ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/></svg></span><span>لوحة المذاكرة اليومية</span></button>
+  <button onclick="goToMonth()"><span class="ui-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 9h18"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01"/></svg></span><span>التقويم الشهري الكامل</span></button>
+  <button onclick="show('add',this)"><span class="ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span><span>إضافة مادة جديدة</span></button>
+  <button onclick="show('settings',this)"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 3l1.3 2.1 2.4.6.6 2.4 2.1 1.3-1.3 2.1.6 2.4-2.1 1.3-.6 2.4-2.4.6L12 21l-1.3-2.1-2.4-.6-.6-2.4-2.1-1.3 1.3-2.1-.6-2.4 2.1-1.3.6-2.4 2.4-.6z"/><circle cx="12" cy="12" r="3"/></svg></span><span>خطة المواد والتنبيهات</span></button>
+ </nav>
+ <div class="side-note"><b>🔥 الالتزام اليوم</b><span id="sideCommit">ممتاز! استمر على خطتك.</span></div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+ <div><h1>لوحة المذاكرة اليومية والتجهيز</h1><p id="todayText"></p></div>
+ <div class="toplinks">
+  <button class="topnav-btn" onclick="goToMonth()">▦ التقويم الشهري</button>
+  <button class="topnav-btn" onclick="show('add',this)">📚 خطة المواد</button>
+  <button class="topnav-btn" onclick="show('settings',this)">📊 الإحصائيات والتنبيهات</button>
+  <button class="topnav-btn" onclick="focusTimer()">⏱️ وقت التركيز</button>
+  <div class="actions"><button class="icon theme-btn" onclick="toggleTheme()"><span id="themeIcon" class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 1 0 7 7 5.5 5.5 0 0 1-7-7z"/></svg></span><span id="themeText">Dark</span></button><button class="icon" onclick="toggleNotifications()"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></span><i class="bell-dot"></i></button></div>
+ </div>
+</header>
+
+<div class="notice" id="statusNotice">● جاهز للتذكير — فعّل إشعارات المتصفح من زر 🔔</div>
+
+<section id="home" class="section active">
+ <div class="hero"><div><div class="spark">✦</div><h2>النجاح مش صدفة، بل هو ثمرة انضباطك اليومي 💜</h2><p>رتّب وقتك، التزم بالمواد المحددة، وخد البريك في موعده. كل جلسة تركيز تقرّبك من هدفك.</p><small>د. مصطفى محمود — كتاب اليوم والأمس</small></div><button class="hero-btn" onclick="startChallenge()">ابدأ التحدي الآن ↗</button></div>
+
+ <div class="stats">
+  <div class="stat"><div class="cap">ساعات اليوم المقررة</div><div class="big" id="hours">0 / 6 ساعات</div><div class="small">58% من الخطة</div><div class="bar"><i id="hourBar" style="width:0%"></i></div></div>
+  <div class="stat"><div class="cap">مادة التركيز الكبرى</div><div class="big" id="mainSubject">—</div><div class="small">المادة التالية في الجدول</div></div>
+  <div class="stat"><div class="cap">استراحة منتصف اليوم</div><div class="big" id="breakTime">01:30 → 02:30 م</div><div class="small">ساعة راحة مخصصة</div></div>
+  <div class="stat"><div class="cap">سلسلة الالتزام المتواصل</div><div class="big">🔥 <span id="streak">18</span> يومًا</div><div class="small">استمر في تحقيق هدفك</div></div>
+ </div>
+
+ <div class="grid" id="tasksArea">
+  <div class="card"><div class="card-head"><div><h3>جدول ساعات اليوم التفصيلي</h3><small>الخطة الزمنية الموزعة بين جلسات المذاكرة والراحة</small></div><span class="pill">5 جلسات مجدولة</span></div><div id="tasks"></div></div>
+  <div class="card focus"><div class="card-head"><h3>الجلسة قيد التنفيذ</h3><span class="pill">جلسة اليوم</span></div><h3 id="currentSubject">اللغة العربية (النحو والبلاغة)</h3><div class="circle" id="circle"><div class="clock" id="clock">01:12:53</div></div><div class="focus-state" id="focusState">متبقي لإنهاء المادة • نسبة الإنجاز 92%</div><div class="progress-row">💡 جلسة التركيز الحالية ستتحول تلقائيًا إلى إشعار بريك عند الانتهاء.</div><div class="focus-actions"><button class="primary" onclick="pauseTimer()" id="pauseBtn">Ⅱ إيقاف مؤقت</button><button class="secondary" onclick="subtractFive()">− 5 دقائق</button><button class="secondary" onclick="addFive()">＋ 5 دقائق</button><button class="green primary" onclick="finishFocus()">✓ إنهاء الجلسة</button></div></div>
+ </div>
+
+ <div class="bottom">
+  <div class="card quote"><b>💡 رسالة اليوم</b><p id="quote"></p></div>
+  <div class="card"><div class="card-head"><h3>🔔 التذكيرات القادمة</h3><span class="pill" id="notificationState">غير مفعلة</span></div><div id="upcoming" class="muted">لا توجد تذكيرات.</div></div>
+ </div>
+
+ 
+
+<div class="month-overview" id="monthlyOverview">
+  <div class="monthly-plan-card">
+    <div class="monthly-plan-head">
+      <div>
+        <h2>📅 Monthly Study Plan</h2>
+        <p>Your complete plan for this month.</p>
+      </div>
+      <div class="monthly-plan-nav">
+        <button onclick="changeMonth(-1)" aria-label="Previous month">‹</button>
+        <button onclick="goToday()" aria-label="Current month">Today</button>
+        <button onclick="changeMonth(1)" aria-label="Next month">›</button>
+      </div>
+    </div>
+
+    <div class="monthly-plan-datebar">
+      <div class="monthly-plan-selectors">
+        <select id="daySelector" onchange="selectCalendarDate()" aria-label="Day"></select>
+        <select id="monthSelector" onchange="selectCalendarDate()" aria-label="Month"></select>
+        <select id="yearSelector" onchange="selectCalendarDate()" aria-label="Year"></select>
+        <button onclick="goToday()">العودة لليوم</button>
+      </div>
+      <span class="monthly-selected-date" id="selectedDateBadge">اليوم المحدد</span>
+    </div>
+
+    <div class="monthly-grid" id="fullMonthCalendar"></div>
+
+    <div class="monthly-legend">
+      <span class="monthly-legend-item"><i class="monthly-legend-dot complete"></i> مكتمل</span>
+      <span class="monthly-legend-item"><i class="monthly-legend-dot partial"></i> قيد الإنجاز</span>
+      <span class="monthly-legend-item"><i class="monthly-legend-dot planned"></i> مخطط</span>
+      <span class="monthly-legend-item"><i class="monthly-legend-dot today"></i> اليوم</span>
+    </div>
+
+    <div class="monthly-summary">
+      <div class="monthly-summary-box"><strong id="monthTotalHours">0h</strong><span>Study hours planned</span></div>
+      <div class="monthly-summary-box"><strong id="monthDoneTasks">0</strong><span>Tasks completed</span></div>
+      <div class="monthly-summary-box"><strong id="monthCompletion">0%</strong><span>Monthly progress</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="manage-section" id="studyManagement">
+  
+
+  
+
+  
+
+
+
+
+<section class="productivity-wrap" id="productivityDashboard">
+  <div class="productivity-hero">
+    <div>
+      <h2>جاهز ليوم مذاكرة منتج؟ 📚</h2>
+      <p>اتبع خطتك، خذ البريك، واستمر في التقدم.</p>
+      <q>مش لازم تكون مثالي، المهم إنك تفضل تتحرك للأمام.</q>
+    </div>
+    <div class="day-progress" id="dayProgressCircle"><b id="dayProgressPercent">0%</b><span>إنجاز اليوم</span></div>
+  </div>
+
+  <div class="productivity-kpis">
+    <div class="p-kpi"><span>⏱️ ساعات المذاكرة اليوم</span><strong id="todayStudyHours">0 س</strong></div>
+    <div class="p-kpi"><span>✅ الجلسات المكتملة</span><strong id="todayTasksDone">0/0</strong></div>
+    <div class="p-kpi"><span>📅 الأيام المخططة</span><strong id="plannedDays">0</strong></div>
+  </div>
+
+  <div class="productivity-main">
+    <div class="p-panel">
+      <h3>📚 جدول اليوم</h3>
+      <div class="schedule-list" id="todayScheduleList"></div>
+    </div>
+
+    <div class="p-panel smart-break">
+      <h3>⏰ البريك الذكي</h3>
+      <p>ذاكر في جلسات تركيز، وبعدها خذ بريك حقيقي. الإعداد الافتراضي 25 دقيقة تركيز ثم 5 دقائق راحة.</p>
+      <div class="break-clock" id="smartBreakClock">25:00</div>
+      <div class="break-actions">
+        <button class="break-start" id="smartBreakStart" onclick="toggleSmartBreak()">ابدأ</button>
+        <button class="break-reset" onclick="resetSmartBreak()">إعادة</button>
+        <button class="break-reset" onclick="adjustBreak(-5)">−5 د</button>
+        <button class="break-reset" onclick="adjustBreak(5)">+5 د</button>
+      </div>
+      <div class="break-control-row">
+        <label>مدة البريك <input id="breakMinutesControl" type="number" min="1" max="120" step="1" value="5" onchange="setBreakMinutes(this.value)"></label>
+        <button class="secondary" onclick="applyBreakMinutes()">تطبيق</button>
+      </div>
+      <div class="break-note" id="breakNote">25 دقيقة تركيز → 5 دقائق بريك</div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<div class="manage-card manage-table">
+    <div class="manage-table-head">
+      <div><h3>📝 خطة جلسات المذاكرة القادمة</h3><p style="margin:3px 0 0">المواد والوقت والحالة في جدول واحد.</p></div>
+      <div style="display:flex;gap:7px"><button class="secondary" onclick="refreshPlanReport()">↻ تحديث تقرير الخطة</button><button onclick="show('add',document.querySelectorAll('.nav button')[2])">＋ إضافة جلسة</button></div>
+    </div>
+    <div class="table-scroll">
+      <table class="study-table">
+        <thead><tr><th>المادة</th><th>اليوم</th><th>الوقت</th><th>المدة</th><th>النوع</th><th>الحالة</th><th>الإجراء الفوري</th></tr></thead>
+        <tbody id="managementRows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  
+</div>
+
+</section>
+
+
+
+<section id="add" class="section"><div class="card"><div class="card-head"><h3>＋ إضافة مادة جديدة</h3></div><div class="form"><input id="subject" placeholder="اسم المادة"><input id="hoursInput" type="number" min=".5" step=".5" placeholder="عدد الساعات"><input id="taskDate" type="date"><input id="taskTime" type="time" value="09:00"><select id="type"><option>مذاكرة</option><option>مراجعة</option><option>حل أسئلة</option><option>امتحان</option></select><button class="primary full" onclick="addTask()">إضافة المادة + تفعيل تذكيرها</button></div></div><div class="subject-library"><div class="card-head"><div><h3><span class="ui-icon" style="display:inline-flex;color:#554ee0"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 5.5v15A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8 8h8M8 11h6"/></svg></span> المواد الموجودة في خطتك</h3><div class="add-material-hint">أي مادة جديدة تضيفها ستظهر هنا تلقائيًا مع باقي المواد.</div></div><button class="secondary" onclick="document.getElementById('subject').focus()"><span class="ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>إضافة مادة</button></div><div id="subjectLibraryGrid" class="subject-library-grid"></div></div>
+
+</section><section id="settings" class="section"><div class="card"><div class="card-head"><h3>⚙ خطة المواد والتنبيهات</h3></div><div class="form"><label class="muted">وقت التذكير اليومي<input id="reminder" type="time" value="08:00"></label><label class="muted">مدة البريك<select id="break"><option value="5">5 دقائق</option><option value="10">10 دقائق</option><option value="15">15 دقيقة</option></select></label><button class="primary full" onclick="enableNotifications()">🔔 تشغيل إشعارات المتصفح</button><button class="secondary full" onclick="saveSettings()">حفظ الإعدادات</button></div><p class="muted" style="line-height:1.9;margin-top:12px">التذكيرات تعمل تلقائيًا أثناء فتح الموقع. اسمح للمتصفح بالإشعارات عند ظهور نافذة السماح. أما الإشعارات أثناء إغلاق الصفحة بالكامل فتحتاج تشغيل الموقع كـ PWA على HTTPS.</p></div></section>
+</main>
+
+<div class="notification-panel" id="panel"><h3>🔔 مركز التنبيهات</h3><div id="panelItems"></div><button class="secondary" style="width:100%;margin-top:8px" onclick="enableNotifications()">تفعيل إشعارات المتصفح</button></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY="tamooh_study_v3";let tasks=JSON.parse(localStorage.getItem(KEY)||"null")||[];let viewDate=new Date();let timer=4373,timerId=null,notified={};const quotes=["النجاح مش صدفة؛ هو نتيجة إنك تعمل الصح كل يوم.","كل جلسة تركيز اليوم تقرّبك خطوة من هدفك.","مش لازم تخلص كل حاجة مرة واحدة، ابدأ بالمادة الحالية.","الاستمرار أهم من الكمال. خليك ثابت.","ذاكر الآن، واشكر نفسك بعدين. أنت قادر."];
+function dk(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function save(){localStorage.setItem(KEY,JSON.stringify(tasks));render();renderSubjectLibrary()}
+function seed(){if(tasks.length)return;let d=new Date();tasks=[
+{id:1,date:dk(d),time:"09:00",subject:"الفيزياء الحديثة (الكهرباء والمغناطيسية)",hours:2,type:"مذاكرة",done:false},
+{id:2,date:dk(d),time:"11:30",subject:"اللغة العربية (النحو والبلاغة)",hours:1.5,type:"مراجعة",done:false},
+{id:3,date:dk(d),time:"14:30",subject:"الرياضيات المتقدمة",hours:2,type:"حل أسئلة",done:false},
+{id:4,date:dk(new Date(d.getFullYear(),d.getMonth(),d.getDate()+1)),time:"09:00",subject:"اللغة الإنجليزية",hours:1.5,type:"مذاكرة",done:false},
+{id:5,date:dk(new Date(d.getFullYear(),d.getMonth(),d.getDate()+2)),time:"10:00",subject:"البرمجة",hours:2,type:"مذاكرة",done:false},
+{id:6,date:dk(new Date(d.getFullYear(),d.getMonth(),d.getDate()+3)),time:"09:30",subject:"الكيمياء",hours:1.5,type:"مراجعة",done:false}];save()}
+function subjectProgress(subject){
+  const rows=tasks.filter(x=>x.subject===subject);
+  const planned=rows.reduce((sum,x)=>sum+Number(x.hours||0),0);
+  const completed=rows.filter(x=>x.done).reduce((sum,x)=>sum+Number(x.hours||0),0);
+  return planned?Math.min(100,Math.round(completed/planned*100)):0;
+}
+function subjectProgressToday(subject){
+  const today=dk(new Date());
+  const rows=tasks.filter(x=>x.subject===subject && x.date===today);
+  const planned=rows.reduce((sum,x)=>sum+Number(x.hours||0),0);
+  const completed=rows.filter(x=>x.done).reduce((sum,x)=>sum+Number(x.hours||0),0);
+  return planned?Math.min(100,Math.round(completed/planned*100)):0;
+}
+
+function render(){renderSubjectLibrary();let now=new Date(),today=dk(now),a=tasks.filter(x=>x.date===today).sort((x,y)=>x.time.localeCompare(y.time)),done=a.filter(x=>x.done).length,total=a.reduce((s,x)=>s+Number(x.hours),0),pct=total?Math.min(100,Math.round(done/a.length*100)):0;document.getElementById("todayText").textContent=now.toLocaleDateString("ar-EG",{weekday:"long",year:"numeric",month:"long",day:"numeric"});document.getElementById("hours").textContent=`${total} / 6 ساعات`;document.getElementById("hourBar").style.width=Math.min(100,total/6*100)+"%";document.getElementById("mainSubject").textContent=a.find(x=>!x.done)?.subject||"اكتملت المواد ✓";let fs=document.getElementById("focusReplacementSubject");if(fs)fs.textContent=a.find(x=>!x.done)?.subject||"اكتملت مواد اليوم ✓";let fp=document.getElementById("focusReplacementProgress");if(fp)fp.textContent=`${done}/${a.length||0} جلسات مكتملة اليوم · ${pct}% إنجاز`;document.getElementById("streak").textContent=18+done;document.getElementById("quote").textContent=quotes[now.getDate()%quotes.length];document.getElementById("tasks").innerHTML=a.length?a.map(t=>`<div class="task ${t.done?"done":""}"><button class="check" onclick="toggleTask(${t.id})"></button><div><div class="subject" onclick="showTodayProgress(${t.id})">${esc(t.subject)}</div><div class="meta">${t.time} — ${t.type} · ${t.hours} ساعة · تذكير ${t.time}</div><div class="subject-progress"><div class="subject-progress-bar"><i style="width:${subjectProgress(t.subject)}%"></i></div><span class="subject-progress-pct">${subjectProgress(t.subject)}%</span><span class="meta" style="margin:0">إنجاز المادة</span></div></div><span class="pill">${t.done?"تم ✓":t.hours+"h"}</span></div>`).join(""):`<div class="muted" style="padding:20px;text-align:center">لا توجد مواد اليوم.</div>`;renderUpcoming();updateNotificationUI()}
+function selectDate(x){
+  const d=new Date(x+"T00:00:00");
+  viewDate=new Date(d.getFullYear(),d.getMonth(),1);
+  document.getElementById("taskDate").value=x;
+  render();
+  updateDateSelectors();
+  toast("تم اختيار "+x);
+}
+function populateDateSelectors(){
+  const day=document.getElementById("daySelector"),month=document.getElementById("monthSelector"),year=document.getElementById("yearSelector");
+  if(!day||!month||!year)return;
+  day.innerHTML=Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join("");
+  const names=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+  month.innerHTML=names.map((n,i)=>`<option value="${i}">${n}</option>`).join("");
+  const cy=new Date().getFullYear();
+  year.innerHTML=Array.from({length:7},(_,i)=>cy-3+i).map(y=>`<option value="${y}">${y}</option>`).join("");
+}
+function updateDateSelectors(){
+  populateDateSelectors();
+  const d=new Date(viewDate.getFullYear(),viewDate.getMonth(),Math.min(new Date().getDate(),new Date(viewDate.getFullYear(),viewDate.getMonth()+1,0).getDate()));
+  const day=document.getElementById("daySelector"),month=document.getElementById("monthSelector"),year=document.getElementById("yearSelector");
+  if(day){day.value=String(d.getDate());} if(month){month.value=String(viewDate.getMonth());} if(year){year.value=String(viewDate.getFullYear());}
+  const badge=document.getElementById("selectedDateBadge");
+  if(badge)badge.textContent=d.toLocaleDateString("ar-EG",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+}
+function selectCalendarDate(){
+  const day=Number(document.getElementById("daySelector").value),month=Number(document.getElementById("monthSelector").value),year=Number(document.getElementById("yearSelector").value);
+  const max=new Date(year,month+1,0).getDate();
+  const safe=Math.min(day,max);
+  const key=dk(new Date(year,month,safe));
+  viewDate=new Date(year,month,1);
+  render(); updateDateSelectors();
+  document.getElementById("taskDate").value=key;
+}
+function goToday(){const d=new Date();viewDate=new Date(d.getFullYear(),d.getMonth(),1);render();updateDateSelectors();}
+function goToMonth(){
+  const btn=document.querySelector('.nav button:nth-child(2)');
+  if(btn){show('home',btn);setTimeout(()=>document.getElementById('monthlyOverview').scrollIntoView({behavior:'smooth'}),30);}
+}
+function focusTimer(){
+  const btn=document.querySelector('.nav button:first-child');
+  show('home',btn);
+  setTimeout(()=>document.querySelector('.focus')?.scrollIntoView({behavior:'smooth',block:'center'}),30);
+}
+function changeMonth(n){viewDate=new Date(viewDate.getFullYear(),viewDate.getMonth()+n,1);render()}
+function toggleTask(id){let t=tasks.find(x=>x.id===id);t.done=!t.done;save();if(t.done)toast("ممتاز! تم إنهاء المادة 🎉")}
+function renderSubjectLibrary(){
+  const box=document.getElementById("subjectLibraryGrid"); if(!box)return;
+  const grouped={};
+  tasks.forEach((t,idx)=>{
+    const name=String(t.subject??"").trim();
+    if(!name)return;
+    if(!grouped[name])grouped[name]={hours:0,total:0,done:0,doneHours:0};
+    grouped[name].hours+=Number(t.hours||0);
+    grouped[name].total++;
+    if(t.done){grouped[name].done++;grouped[name].doneHours+=Number(t.hours||0);}
+  });
+  const entries=Object.entries(grouped);
+  if(!entries.length){box.innerHTML='<div class="muted" style="padding:18px;text-align:center">لا توجد مواد بعد. أضف أول مادة من النموذج أعلاه.</div>';return;}
+  box.innerHTML=entries.map(([name,v])=>{
+    const pct=v.hours?Math.min(100,Math.round(v.doneHours/v.hours*100)):0;
+    const encoded=encodeURIComponent(name);
+    return `<div class="library-card">
+      <div class="library-head"><div class="library-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 5.5v15A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8 8h8M8 11h6"/></svg></div><div><div class="library-name">${esc(name)}</div><div class="library-meta">${v.hours} ساعة مخططة · ${v.doneHours} ساعة مكتملة · ${v.done}/${v.total} جلسات مكتملة</div></div></div>
+      <div class="library-bar"><i style="width:${pct}%"></i></div>
+      <div class="library-foot"><span>الإنجاز</span><b>${pct}%</b><button type="button" class="library-delete" data-subject="${encoded}" title="حذف المادة">🗑 حذف المادة</button></div>
+    </div>`;
+  }).join('');
+}
+
+function deleteSubject(encodedName){
+  let name="";
+  try{name=decodeURIComponent(String(encodedName||""));}catch(e){name=String(encodedName||"");}
+  name=String(name).trim();
+  if(!name)return false;
+  const before=tasks.length;
+  const normalized=name.toLowerCase();
+  tasks=tasks.filter(t=>String(t.subject??"").trim().toLowerCase()!==normalized);
+  if(tasks.length===before){toast("المادة غير موجودة");return false;}
+  localStorage.setItem(KEY,JSON.stringify(tasks));
+  render();
+  renderSubjectLibrary();
+  if(typeof renderProductivityDashboard==="function")renderProductivityDashboard();
+  if(typeof renderManagement==="function")renderManagement();
+  if(typeof refreshStudyStats==="function")refreshStudyStats();
+  if(typeof renderAchievements==="function")renderAchievements();
+  toast(`تم حذف مادة «${name}» وكل جلساتها ✓`);
+  return false;
+}
+function handleDeleteSubject(btn){
+  if(!btn)return false;
+  return deleteSubject(btn.getAttribute("data-subject")||"");
+}
+window.deleteSubject=deleteSubject;
+window.handleDeleteSubject=handleDeleteSubject;
+
+// حذف المواد — يعمل حتى لو أعاد الموقع رسم البطاقات بعد التحميل
+(function installSubjectDeleteHandler(){
+  const handler=function(e){
+    const target=e.target && e.target.closest ? e.target.closest("button.library-delete") : null;
+    if(!target)return;
+    e.preventDefault();
+    e.stopPropagation();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+    deleteSubject(target.getAttribute("data-subject")||"");
+  };
+  document.addEventListener("click",handler,true);
+  document.addEventListener("pointerup",function(e){
+    const target=e.target && e.target.closest ? e.target.closest("button.library-delete") : null;
+    if(!target)return;
+    e.preventDefault();
+    e.stopPropagation();
+  },true);
+})();
+function addTask(){let s=document.getElementById("subject").value.trim(),h=+document.getElementById("hoursInput").value,d=document.getElementById("taskDate").value||dk(new Date()),time=document.getElementById("taskTime").value||"09:00",type=document.getElementById("type").value;if(!s||!h)return toast("اكتب اسم المادة وعدد الساعات");tasks.push({id:Date.now(),date:d,time,subject:s,hours:h,type,done:false});save();document.getElementById("subject").value="";document.getElementById("hoursInput").value="";document.getElementById("taskDate").value=dk(new Date());toast(d===dk(new Date())?`تمت إضافة ${s} إلى جدول ساعات اليوم ✓`:`تمت إضافة ${s} إلى خطة يوم ${d} ✓`);show("home",document.querySelector(".nav button"))}
+function show(id,b){document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active")}
+function updateThemeUI(){const dark=document.body.classList.contains("dark");const i=document.getElementById("themeIcon"),t=document.getElementById("themeText");if(i)i.innerHTML=dark?`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`:`<svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 1 0 7 7 5.5 5.5 0 0 1-7-7z"/></svg>`;if(t)t.textContent=dark?"Light":"Dark"}
+function toggleTheme(){document.body.classList.toggle("dark");localStorage.setItem("dark",document.body.classList.contains("dark")?"1":"0");updateThemeUI();toast(document.body.classList.contains("dark")?"تم تشغيل الوضع الداكن 🌙":"تم تشغيل الوضع الفاتح ☀️")}
+async function enableNotifications(){if(!("Notification"in window)){toast("المتصفح لا يدعم الإشعارات");return}let p=await Notification.requestPermission();if(p==="granted"){localStorage.setItem("notifications","on");toast("تم تشغيل الإشعارات بنجاح ✓");updateNotificationUI();notifyNow("منصة طموح","تم تفعيل تذكيرات المذاكرة بنجاح ✓")}else toast("اسمح بالإشعارات من إعدادات المتصفح")}
+function notifyNow(title,body){if("Notification"in window&&Notification.permission==="granted")new Notification(title,{body,icon:""})}
+function checkReminders(){let now=new Date(),date=dk(now),time=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0"),a=tasks.filter(x=>x.date===date&&x.time===time&&!x.done);a.forEach(t=>{let k=t.id+"-"+date+"-"+time;if(!notified[k]){notified[k]=1;notifyNow("📚 وقت المذاكرة",`حان وقت ${t.subject} — ${t.hours} ساعة`);toast("🔔 حان وقت مذاكرة "+t.subject)}})}
+function renderUpcoming(){let now=new Date(),date=dk(now),a=tasks.filter(x=>x.date===date&&!x.done).sort((x,y)=>x.time.localeCompare(y.time)).slice(0,3);document.getElementById("upcoming").innerHTML=a.length?a.map(x=>`<div class="nitem"><b>${x.time} — ${esc(x.subject)}</b><span>${x.hours} ساعة · ${x.type}</span></div>`).join(""):"كل مواد اليوم مكتملة 🎉"}
+function toggleNotifications(){let p=document.getElementById("panel");p.style.display=p.style.display==="block"?"none":"block";document.getElementById("panelItems").innerHTML=tasks.slice().sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).slice(0,5).map(x=>`<div class="nitem"><b>🔔 ${x.subject}</b><span>${x.date} • ${x.time} • ${x.hours} ساعة</span></div>`).join("")}
+function updateNotificationUI(){let on=localStorage.getItem("notifications")==="on"&&"Notification"in window&&Notification.permission==="granted";document.getElementById("notificationState").textContent=on?"مفعلة ✓":"غير مفعلة";document.getElementById("statusNotice").textContent=on?"● الإشعارات مفعلة — سيتم تذكيرك بالمواد في مواعيدها":"● جاهز للتذكير — فعّل إشعارات المتصفح من زر 🔔"}
+function saveSettings(){localStorage.setItem("reminder",document.getElementById("reminder").value);localStorage.setItem("break",document.getElementById("break").value);toast("تم حفظ الإعدادات ✓");}
+function updateClock(){let h=Math.floor(timer/3600),m=Math.floor(timer%3600/60),s=timer%60;let text=`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;let c=document.getElementById("clock");if(c)c.textContent=text;let fc=document.getElementById("focusClock");if(fc)fc.textContent=h>0?text:text.slice(3);let total=4373,deg=(timer/total)*360;let circle=document.getElementById("circle");if(circle)circle.style.setProperty("--deg",deg+"deg");let fcircle=document.getElementById("focusClockCircle");if(fcircle)fcircle.style.setProperty("--focus-deg",deg+"deg")}
+function startTimer(){
+  if(timerId)return;
+  timerId=setInterval(()=>{
+    timer--;
+    updateClock();
+    if(timer<=0){
+      clearInterval(timerId);timerId=null;
+      // اربط انتهاء المؤقت بالمادة التي بدأت فعليًا.
+      if(activeTaskId){
+        const finished=tasks.find(x=>x.id===activeTaskId);
+        if(finished && !finished.done){
+          finished.done=true;
+          save();
+          render();
+          renderProductivityDashboard();
+          renderManagement();
+          toast("🎉 تم إنهاء "+finished.subject+" وتحديث إنجاز اليوم");
+        }
+        activeTaskId=null;
+      }
+      timer=Number(localStorage.getItem("break")||5)*60;
+      document.getElementById("focusState").textContent="☕ انتهت الجلسة — وقت البريك الآن";
+      notifyNow("☕ وقت البريك","انتهت جلسة التركيز. تم تسجيل المادة كمكتملة، خذ بريك الآن.");
+      toast("انتهت جلسة المذاكرة! وقت البريك ☕");
+    }
+  },1000);
+  document.getElementById("pauseBtn").textContent="Ⅱ إيقاف مؤقت";
+}
+function pauseTimer(){if(timerId){clearInterval(timerId);timerId=null;document.getElementById("pauseBtn").textContent="▶ استكمال"}else startTimer()}
+function addFive(){timer+=300;updateClock();toast("تمت إضافة 5 دقائق")}
+function finishFocus(){
+  clearInterval(timerId);timerId=null;
+  if(activeTaskId){
+    const finished=tasks.find(x=>x.id===activeTaskId);
+    if(finished && !finished.done){
+      finished.done=true;
+      save();
+      toast("🎉 تم إنهاء "+finished.subject+" وتسجيلها ضمن إنجاز اليوم");
+    }
+    activeTaskId=null;
+  }
+  document.getElementById("focusState").textContent="تم إنهاء الجلسة — أحسنت! ✓";
+  render();
+  renderProductivityDashboard();
+  if(typeof renderManagement==="function")renderManagement();
+  if(typeof refreshStudyStats==="function")refreshStudyStats();
+}
+function scrollToTasks(){document.getElementById("tasksArea").scrollIntoView({behavior:"smooth"})}
+function toast(s){let e=document.getElementById("toast");e.textContent=s;e.style.display="block";clearTimeout(window.t);window.t=setTimeout(()=>e.style.display="none",2600)}
+function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+(function(){if(localStorage.getItem("dark")==="1")document.body.classList.add("dark");updateThemeUI();seed();render();updateClock();setInterval(checkReminders,15000);setInterval(render,60000);if(localStorage.getItem("notifications")==="on")updateNotificationUI()})();
+</script>
+
+<script>
+function renderFullMonthlyOverview(){
+  const y=viewDate.getFullYear(), m=viewDate.getMonth();
+  const title=new Date(y,m,1).toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  const totalHours=tasks.reduce((s,t)=>s+Number(t.hours||0),0);
+  const doneTasks=tasks.filter(t=>t.done).length;
+  const completion=tasks.length?Math.round(doneTasks/tasks.length*100):0;
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  set('monthTotalHours',Number.isInteger(totalHours)?totalHours+'h':totalHours.toFixed(1)+'h');
+  set('monthDoneTasks',doneTasks);
+  set('monthCompletion',completion+'%');
+  updateDateSelectors();
+
+  const grid=document.getElementById('fullMonthCalendar');
+  if(!grid)return;
+  const first=new Date(y,m,1).getDay();
+  const days=new Date(y,m+1,0).getDate();
+  const weekdays=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  let h=weekdays.map(x=>`<div class="monthly-weekday">${x}</div>`).join('');
+  for(let i=0;i<first;i++)h+='<div class="monthly-cell empty"></div>';
+  for(let n=1;n<=days;n++){
+    const date=new Date(y,m,n),key=dk(date),arr=tasks.filter(t=>t.date===key);
+    const done=arr.filter(t=>t.done).length;
+    const state=arr.length&&done===arr.length?'complete':arr.length&&done>0?'partial':arr.length?'planned':'';
+    const today=key===dk(new Date());
+    const count=arr.length;
+    h+=`<div class="monthly-cell ${today?'today ':''}${state}" onclick="selectDate('${key}')" title="${count?count+' task'+(count===1?'':'s'):'No tasks'}">
+      <div class="monthly-day-number">${n}${state==='complete'?'<span class="monthly-complete-mark">✓</span>':''}</div>
+      ${count?`<div class="monthly-tasks-count"><span class="monthly-status-dot"></span>${count} task${count===1?'':'s'}</div>`:'<div class="monthly-tasks-count">—</div>'}
+    </div>`;
+  }
+  grid.innerHTML=h;
+
+  const badge=document.getElementById('selectedDateBadge');
+  if(badge){
+    const d=new Date(document.getElementById('taskDate')?.value||dk(new Date())+'T00:00:00');
+    badge.textContent=d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  }
+}
+const oldRender=render;
+render=function(){oldRender();renderFullMonthlyOverview()};
+</script>
+
+
+<script>
+function toggleSwitch(id){
+  const e=document.getElementById(id);
+  if(e)e.classList.toggle("on");
+}
+function renderManagement(){
+  const now=new Date(), today=dk(now);
+  const allHours=tasks.reduce((s,t)=>s+Number(t.hours||0),0);
+  const doneHours=tasks.filter(t=>t.done).reduce((s,t)=>s+Number(t.hours||0),0);
+  const pct=allHours?Math.round(doneHours/allHours*100):0;
+  const ring=document.getElementById("manageRing");
+  if(ring)ring.style.background=`conic-gradient(var(--green) ${pct}%,#e8edf5 0)`;
+  const ids={
+    managePercent:pct+"%", manageHours:doneHours.toFixed(1).replace(".0",""),
+    manageRemaining:Math.max(0,allHours-doneHours).toFixed(1).replace(".0",""),
+    manageTasks:tasks.length
+  };
+  Object.entries(ids).forEach(([id,val])=>{const e=document.getElementById(id);if(e)e.textContent=val});
+  const todayTasks=tasks.filter(t=>t.date===today);
+  const todayHours=todayTasks.reduce((s,t)=>s+Number(t.hours||0),0);
+  const todayDone=todayTasks.filter(t=>t.done).length;
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  set("manageTodayHours",todayHours+" س");
+  set("manageTodayDone",todayDone);
+  set("manageTodayLeft",Math.max(0,todayTasks.length-todayDone));
+
+  const rows=document.getElementById("managementRows");
+  if(rows){
+    const list=tasks.slice().sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).slice(0,10);
+    rows.innerHTML=list.length?list.map(t=>{
+      const date=new Date(t.date+"T00:00:00").toLocaleDateString("ar-EG",{day:"numeric",month:"short"});
+      return `<tr data-task-id="${t.id}">
+        <td onclick="showTodayProgress(${t.id})" title="عرض إنجاز اليوم" style="cursor:pointer"><span class="status-dot ${t.done?"":"pending"}"></span><b>${esc(t.subject)}</b></td>
+        <td>${date}</td><td>${t.time}</td><td>${t.hours} ساعة</td>
+        <td><span class="table-pill ${t.type==="مراجعة"?"purple":t.type==="امتحان"?"yellow":""}">${esc(t.type)}</span></td>
+        <td><span class="table-pill ${t.done?"":"purple"}">${t.done?"مكتملة ✓":"مجدولة"}</span></td>
+        <td>
+  ${t.done
+    ? `<button class="plan-action repeat" onclick="undoTask(${t.id})">↶ إعادة</button>`
+    : `<button class="plan-action start" onclick="startTaskNow(${t.id})">◉ ابدأ الآن</button>
+       <button class="plan-action later" onclick="markLater(${t.id})">▶ لاحقاً</button>`}
+       <button class="plan-action delete" onclick="deleteTask(${t.id})">🗑 حذف</button>
+</td>
+      </tr>`;
+    }).join(""):`<tr><td colspan="7" style="text-align:center;color:var(--muted)">أضف جلسات للمذاكرة لتظهر هنا.</td></tr>`;
+  }
+
+  const on=("Notification"in window&&Notification.permission==="granted"&&localStorage.getItem("notifications")==="on");
+  set("manageNotificationText",on?"الإشعارات مفعلة ✓":"الإشعارات غير مفعلة");
+}
+const previousManagementRender=render;
+render=function(){previousManagementRender();renderManagement();renderAchievements()};
+</script>
+
+
+<script>
+function subtractFive(){
+  timer=Math.max(0,timer-300);
+  updateClock();
+  toast("تم إنقاص 5 دقائق من الجلسة ⏱️");
+}
+function toggleAlert(id){
+  const e=document.getElementById(id);
+  if(!e)return;
+  e.classList.toggle("on");
+  localStorage.setItem("alert_"+id,e.classList.contains("on")?"1":"0");
+  const active=[...document.querySelectorAll(".alert-toggle.on")].length;
+  const s=document.getElementById("alertSettingsStatus");
+  if(s)s.textContent=active===4?"جميع التنبيهات مفعلة":active+" من 4 تنبيهات مفعلة";
+}
+</script>
+
+
+<script>
+let activeTaskId=null;
+function highlightManagement(id){
+  document.querySelectorAll('#managementRows tr').forEach(r=>r.classList.remove('row-active'));
+  const el=document.querySelector('#managementRows tr[data-task-id="'+id+'"]');
+  if(el){el.classList.add('row-active');setTimeout(()=>el.classList.remove('row-active'),3500);}
+}
+function startChallenge(){
+  const pending=tasks.filter(t=>!t.done).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0];
+  if(!pending){toast('أكملت كل الجلسات 🎉 أضف جلسة جديدة لبدء تحدٍ جديد.');return;}
+  activeTaskId=pending.id;
+  viewDate=new Date(pending.date+'T00:00:00');
+  timer=Math.max(60,Math.round(Number(pending.hours||1)*60*60));
+  updateClock();
+  render();
+  renderManagement();
+  highlightManagement(pending.id);
+  startTimer();
+  document.getElementById('studyManagement')?.scrollIntoView({behavior:'smooth',block:'start'});
+  toast('🚀 بدأ التحدي الآن: '+pending.subject);
+}
+function startTaskNow(id){
+  const t=tasks.find(x=>x.id===id);
+  if(!t)return;
+  activeTaskId=id;
+  viewDate=new Date(t.date+'T00:00:00');
+  timer=Math.max(60,Math.round(Number(t.hours||1)*60*60));
+  updateClock();
+  render();
+  renderManagement();
+  highlightManagement(id);
+  startTimer();
+  document.getElementById('studyManagement')?.scrollIntoView({behavior:'smooth',block:'center'});
+  toast('▶ بدأت جلسة '+t.subject+' الآن');
+}
+function markLater(id){
+  const t=tasks.find(x=>x.id===id);
+  if(!t)return;
+  const parts=t.time.split(':').map(Number);
+  let mins=parts[0]*60+parts[1]+30;
+  mins=mins%(24*60);
+  t.time=String(Math.floor(mins/60)).padStart(2,'0')+':'+String(mins%60).padStart(2,'0');
+  save();
+  toast('▶ تم تأجيل '+t.subject+' لمدة 30 دقيقة');
+}
+function undoTask(id){
+  const t=tasks.find(x=>x.id===id);
+  if(!t)return;
+  t.done=false; save(); render(); renderManagement(); toast('↶ تمت إعادة الجلسة إلى الخطة');
+}
+function finishTaskNow(){
+  if(activeTaskId){
+    const t=tasks.find(x=>x.id===activeTaskId);
+    if(t){t.done=true;save();}
+  }
+  finishFocus();
+  render();
+  renderManagement();
+}
+function refreshPlanReport(){
+  render();
+  renderManagement();
+  if(typeof renderFullMonthlyOverview==='function') renderFullMonthlyOverview();
+  toast('↻ تم تحديث تقرير الخطة ✓');
+}
+</script>
+
+<script>
+(function restoreAlertSwitches(){
+  ['alertBefore','alertContinue','alertMorning','alertFinish'].forEach(id=>{
+    const v=localStorage.getItem('alert_'+id);
+    const e=document.getElementById(id);
+    if(e && v==='0') e.classList.remove('on');
+  });
+})();
+</script>
+
+
+<script>
+function refreshStudyStats(){
+  try{
+    const list = Array.isArray(tasks) ? tasks : [];
+    const totalHours = list.reduce((s,t)=>s+Number(t.hours||0),0);
+    const done = list.filter(t=>t.done);
+    const doneHours = done.reduce((s,t)=>s+Number(t.hours||0),0);
+    const leftHours = Math.max(0,totalHours-doneHours);
+    const totalSessions = list.length;
+    const doneSessions = done.length;
+    const pct = totalHours ? Math.round(doneHours/totalHours*100) : 0;
+    const todayKey = dk(new Date());
+    const today = list.filter(t=>t.date===todayKey);
+    const todayDone = today.filter(t=>t.done).length;
+    const todayLeftHours = today.filter(t=>!t.done).reduce((s,t)=>s+Number(t.hours||0),0);
+
+    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+    set("statTotalHours", totalHours.toFixed(1).replace(".0","")+" س");
+    set("statDoneHours", doneHours.toFixed(1).replace(".0","")+" س");
+    set("statDoneRate", pct+"% من الخطة");
+    set("statDoneSessions", doneSessions);
+    set("statSessionRate", doneSessions+" من "+totalSessions+" جلسة");
+    set("statLeftHours", leftHours.toFixed(1).replace(".0","")+" س");
+    set("statToday", todayDone+" مكتملة / "+today.length+" إجمالي");
+    set("statTodayLeft", todayLeftHours.toFixed(1).replace(".0","")+" ساعة");
+
+    const bar=document.getElementById("statProgressBar");
+    if(bar)bar.style.width=pct+"%";
+
+    // Calculate consecutive calendar days having at least one completed session.
+    const completedDates=[...new Set(done.map(t=>t.date).filter(Boolean))].sort().reverse();
+    let streak=0;
+    let cursor=new Date();
+    for(let i=0;i<completedDates.length;i++){
+      const key=dk(cursor);
+      if(completedDates.includes(key)){streak++;cursor.setDate(cursor.getDate()-1);}
+      else if(i===0){
+        cursor.setDate(cursor.getDate()-1);
+        const yesterday=dk(cursor);
+        if(completedDates.includes(yesterday)){streak++;cursor.setDate(cursor.getDate()-1);}
+        else break;
+      } else break;
+    }
+    set("statStreak", streak+" أيام متتالية");
+    set("statsUpdated","آخر تحديث: "+new Date().toLocaleTimeString("ar-EG",{hour:"2-digit",minute:"2-digit"}));
+  }catch(e){}
+}
+
+// Hook into the existing render function without replacing its behavior.
+const _renderForStats = typeof render==="function" ? render : null;
+if(_renderForStats && !window.__statsHooked){
+  window.__statsHooked=true;
+  render=function(){
+    _renderForStats.apply(this,arguments);
+    refreshStudyStats();
+  };
+}
+document.addEventListener("DOMContentLoaded",()=>setTimeout(refreshStudyStats,150));
+</script>
+
+
+<script>
+let smartBreakSeconds=1500, smartBreakRunning=false, smartBreakTimer=null;
+let breakMinutes=Number(localStorage.getItem("breakMinutes")||5);
+
+function renderProductivityDashboard(){
+  const list=Array.isArray(tasks)?tasks:[];
+  const todayKey=dk(new Date());
+  const today=list.filter(t=>t.date===todayKey);
+  const done=today.filter(t=>t.done);
+  const plannedHours=today.reduce((s,t)=>s+Number(t.hours||0),0);
+  const doneHours=done.reduce((s,t)=>s+Number(t.hours||0),0);
+  const pct=plannedHours?Math.min(100,Math.round(doneHours/plannedHours*100)):0;
+
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  set("dayProgressPercent",pct+"%");
+  set("todayStudyHours",doneHours.toFixed(1).replace(".0","")+" س");
+  set("todayTasksDone",done.length+"/"+today.length);
+  set("plannedDays",new Set(list.map(t=>t.date).filter(Boolean)).size);
+
+  const circle=document.getElementById("dayProgressCircle");
+  if(circle)circle.style.background=`conic-gradient(#fff ${pct*3.6}deg,rgba(255,255,255,.25) 0)`;
+
+  const box=document.getElementById("todayScheduleList");
+  if(!box)return;
+  if(!today.length){
+    box.innerHTML='<div style="text-align:center;color:var(--muted);padding:25px">لا توجد جلسات مجدولة لليوم. أضف مادة من زر «إضافة مادة جديدة».</div>';
+    return;
+  }
+  box.innerHTML=today.map((t,i)=>`
+    <label class="schedule-item ${t.done?'done':''}">
+      <input type="checkbox" ${t.done?'checked':''} onchange="toggleProductivityTask(${tasks.indexOf(t)})">
+      <div class="schedule-info" onclick="event.stopPropagation();showTodayProgress(${t.id})"><b>${esc(t.subject)}</b><span>${esc(t.type||"مذاكرة")} · ${t.hours} ساعة · ${t.done?"تم الإنجاز اليوم ✓":"متبقية اليوم"}</span><div class="subject-progress"><div class="subject-progress-bar"><i style="width:${subjectProgress(t.subject)}%"></i></div><span class="subject-progress-pct">${subjectProgress(t.subject)}%</span><span class="meta" style="margin:0">إنجاز المادة</span></div></div>
+      <span class="schedule-progress">${subjectProgress(t.subject)}%</span><span class="schedule-time">${t.done?"✓ ":""}${t.hours}س</span>
+    </label>`).join("");
+}
+
+function toggleProductivityTask(index){
+  if(!tasks[index])return;
+  const t=tasks[index];
+  t.done=!t.done;
+  if(t.done && activeTaskId===t.id) activeTaskId=null;
+  save();
+  render();
+  renderProductivityDashboard();
+  if(typeof renderManagement==="function")renderManagement();
+  if(typeof refreshStudyStats==="function")refreshStudyStats();
+  toast(t.done ? "✅ "+t.subject+" أُنجزت وتم تحديث إنجاز اليوم" : "↶ تم إعادة "+t.subject+" إلى المواد غير المكتملة");
+}
+
+function updateSmartBreakClock(){
+  const e=document.getElementById("smartBreakClock");
+  if(!e)return;
+  const m=Math.floor(smartBreakSeconds/60).toString().padStart(2,"0");
+  const s=(smartBreakSeconds%60).toString().padStart(2,"0");
+  e.textContent=m+":"+s;
+}
+function toggleSmartBreak(){
+  const btn=document.getElementById("smartBreakStart");
+  if(smartBreakRunning){
+    clearInterval(smartBreakTimer);smartBreakRunning=false;
+    if(btn)btn.textContent="استكمال";
+    return;
+  }
+  smartBreakRunning=true;
+  if(btn)btn.textContent="إيقاف مؤقت";
+  smartBreakTimer=setInterval(()=>{
+    smartBreakSeconds--;
+    updateSmartBreakClock();
+    if(smartBreakSeconds<=0){
+      clearInterval(smartBreakTimer);smartBreakRunning=false;
+      smartBreakSeconds=breakMinutes*60; updateSmartBreakClock();
+      if(btn)btn.textContent="ابدأ";
+      if("Notification"in window&&Notification.permission==="granted")
+        new Notification("وقت البريك ☕",{body:"أحسنت! خذ 5 دقائق راحة ثم ارجع للمذاكرة."});
+      if(typeof toast==="function")toast("انتهت جلسة التركيز — وقت البريك ☕");
+    }
+  },1000);
+}
+function setBreakMinutes(v){
+  const n=Math.max(1,Math.min(120,Number(v)||5));
+  breakMinutes=n; localStorage.setItem("breakMinutes",n);
+  if(!smartBreakRunning){smartBreakSeconds=n*60; updateSmartBreakClock();}
+  const note=document.getElementById("breakNote"); if(note)note.textContent=`25 دقيقة تركيز → ${n} دقيقة بريك`;
+}
+function applyBreakMinutes(){
+  const input=document.getElementById("breakMinutesControl");
+  setBreakMinutes(input?input.value:breakMinutes);
+  toast(`تم ضبط البريك على ${breakMinutes} دقيقة ✓`);
+}
+function adjustBreak(delta){setBreakMinutes(breakMinutes+delta); const input=document.getElementById("breakMinutesControl"); if(input)input.value=breakMinutes;}
+function resetSmartBreak(){
+  clearInterval(smartBreakTimer);smartBreakRunning=false;smartBreakSeconds=25*60;
+  updateSmartBreakClock();
+  const btn=document.getElementById("smartBreakStart");if(btn)btn.textContent="ابدأ";
+}
+document.addEventListener("DOMContentLoaded",()=>{setTimeout(renderProductivityDashboard,100); setTimeout(()=>{const i=document.getElementById("breakMinutesControl");if(i)i.value=breakMinutes;setBreakMinutes(breakMinutes)},120);});
+
+/* Re-render the new dashboard whenever the app's normal render runs. */
+if(!window.__productivityHooked && typeof render==="function"){
+  const _oldRender=render;
+  window.__productivityHooked=true;
+  render=function(){_oldRender.apply(this,arguments);setTimeout(renderProductivityDashboard,0)};
+}
+</script>
+
+
+<script>
+function renderAchievements(){
+  const list=Array.isArray(tasks)?tasks:[];
+  const totalHours=list.reduce((s,t)=>s+Number(t.hours||0),0);
+  const done=list.filter(t=>t.done);
+  const doneHours=done.reduce((s,t)=>s+Number(t.hours||0),0);
+  const pct=totalHours?Math.round(doneHours/totalHours*100):0;
+  const subjects={};
+  list.forEach(t=>{
+    const name=t.subject||"بدون اسم";
+    if(!subjects[name])subjects[name]={hours:0,doneHours:0,total:0,done:0};
+    subjects[name].hours+=Number(t.hours||0);
+    subjects[name].total++;
+    if(t.done){subjects[name].done++;subjects[name].doneHours+=Number(t.hours||0);}
+  });
+  const subjectEntries=Object.entries(subjects);
+  const completedSubjects=subjectEntries.filter(([n,v])=>v.total>0&&v.done===v.total).length;
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  set("achTotalHours",totalHours.toFixed(1).replace(".0","")+" س");
+  set("achDoneHours",doneHours.toFixed(1).replace(".0","")+" س");
+  set("achDoneSubjects",completedSubjects);
+  set("achDoneSessions",done.length);
+  set("achievementStatus",pct+"% إنجاز");
+  const bar=document.getElementById("achProgress");if(bar)bar.style.width=pct+"%";
+
+  const box=document.getElementById("achievementSubjects");
+  if(box){
+    box.innerHTML=subjectEntries.length?subjectEntries.map(([name,v])=>{
+      const p=v.total?Math.round(v.done/v.total*100):0;
+      return `<div class="achievement-subject">
+        <div class="achievement-subject-top"><b>📚 ${esc(name)}</b><small>${p}%</small></div>
+        <div class="bar"><i style="width:${p}%"></i></div>
+        <div class="foot"><span>${v.done}/${v.total} جلسات</span><span>${v.doneHours.toFixed(1).replace(".0","")}/${v.hours.toFixed(1).replace(".0","")} س</span></div>
+      </div>`;
+    }).join(""):`<div class="muted">أضف موادك من «إضافة مادة» لتظهر إنجازاتك هنا.</div>`;
+  }
+
+  // Real achievements based on the actual plan.
+  const completedSessions=done.length;
+  const achievements=[
+    [completedSessions>=1,"🥇","أول جلسة","أكملت أول جلسة مذاكرة."],
+    [completedSessions>=3,"🔥","3 جلسات","أكملت 3 جلسات."],
+    [doneHours>=5,"⏱️","5 ساعات","أنجزت 5 ساعات مذاكرة."],
+    [completedSubjects>=1,"📚","مادة مكتملة","أنهيت كل جلسات مادة واحدة."],
+    [completedSubjects>=3,"🏆","3 مواد مكتملة","أنهيت 3 مواد بالكامل."],
+    [pct>=100&&list.length>0,"🎯","الخطة مكتملة","أنهيت كل الجلسات الموجودة في الخطة."]
+  ];
+  const badgeBox=document.getElementById("achievementBadges");
+  if(badgeBox) badgeBox.innerHTML=achievements.map(a=>`<div class="badge ${a[0]?"":"locked"}"><strong>${a[1]} ${a[2]}</strong><span>${a[0]?"تم تحقيق الإنجاز ✓":"لم يتحقق بعد"}</span></div>`).join("");
+}
+</script>
+
+
+<div id="todayProgressModal" onclick="if(event.target===this)closeTodayProgress()">
+  <div class="today-progress-card">
+    <div class="today-progress-top">
+      <h3>📊 إنجاز اليوم</h3>
+      <button class="today-progress-close" onclick="closeTodayProgress()">×</button>
+    </div>
+    <div class="today-progress-ring" id="todayProgressRing">
+      <div><strong id="todayProgressPercent">0%</strong><span>إنجاز اليوم</span></div>
+    </div>
+    <div class="today-progress-subject">
+      <b id="todayProgressSubject">المادة</b>
+      <div id="todayProgressSubjectStatus" class="today-progress-hint"></div>
+    </div>
+    <div class="today-progress-grid">
+      <div class="today-progress-stat"><b id="todayProgressDoneHours">0 س</b><small>ساعات مكتملة</small></div>
+      <div class="today-progress-stat"><b id="todayProgressDoneSessions">0</b><small>جلسات مكتملة</small></div>
+      <div class="today-progress-stat"><b id="todayProgressRemaining">0 س</b><small>ساعات متبقية</small></div>
+    </div>
+    <div class="today-progress-hint" id="todayProgressMessage"></div>
+  </div>
+</div>
+
+
+<script>
+function showTodayProgress(taskId){
+  const t=tasks.find(x=>x.id===taskId);
+  if(!t)return;
+  const todayKey=dk(new Date());
+  const today=tasks.filter(x=>x.date===todayKey);
+  const done=today.filter(x=>x.done);
+  const plannedHours=today.reduce((s,x)=>s+Number(x.hours||0),0);
+  const doneHours=done.reduce((s,x)=>s+Number(x.hours||0),0);
+  const remaining=Math.max(0,plannedHours-doneHours);
+  const pct=plannedHours?Math.min(100,Math.round(doneHours/plannedHours*100)):0;
+  const subjectPct=Number(t.hours)>0?(t.done?100:0):0;
+
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  set("todayProgressPercent",pct+"%");
+  set("todayProgressSubject",t.subject);
+  set("todayProgressDoneHours",doneHours.toFixed(1).replace(".0","")+" س");
+  set("todayProgressDoneSessions",done.length+" / "+today.length);
+  set("todayProgressRemaining",remaining.toFixed(1).replace(".0","")+" س");
+  set("todayProgressSubjectStatus",
+      t.done ? "✅ هذه المادة مكتملة اليوم — "+subjectPct+"%."
+             : "⏳ هذه المادة لم تُكمل بعد — 0% منها محسوب في إنجاز اليوم.");
+  set("todayProgressMessage",
+      "إنجاز اليوم = الساعات المكتملة من إجمالي ساعات مواد اليوم. عند إنهاء "+t.subject+
+      " ستزيد النسبة تلقائيًا، وتتحدث الإحصائيات والتقويم أيضًا.");
+
+  const ring=document.getElementById("todayProgressRing");
+  if(ring)ring.style.background=`conic-gradient(var(--green) ${pct*3.6}deg,#e7edf6 0)`;
+  document.getElementById("todayProgressModal")?.classList.add("show");
+}
+function closeTodayProgress(){
+  document.getElementById("todayProgressModal")?.classList.remove("show");
+}
+</script>
+
+</body>
+</html>
